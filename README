@@ -1,35 +1,63 @@
-=== SNOMINATOR ===
+SNOMINATOR
+==========
 
-A (very) simple webservice to configure your snom IP phones
+A (very) simple webservice to configure your snom IP phones. Really no pretention, use it as a toy :)
 
-Relies on mysql
+Relies on mysql, but can easily be changed, thanks to sequel.
+
+Dependencies
+------------
+
+ * sinatra
+ * sequel
+ * haml
+
+Setup
+-----
 
 the database schema :
 
-mysql> desc md_phones;
- +-------------+--------------+------+-----+---------------------+----------------+
- | Field       | Type         | Null | Key | Default             | Extra          |
- +-------------+--------------+------+-----+---------------------+----------------+
- | id          | int(11)      | NO   | PRI | NULL                | auto_increment | 
- | mac         | varchar(20)  | NO   |     | NULL                |                | 
- | sipnumber   | int(11)      | NO   |     | NULL                |                | 
- | sippassword | varchar(20)  | YES  |     | 1234                |                | 
- | identnumber | int(11)      | YES  |     | 1                   |                | 
- | nom         | varchar(255) | YES  |     | John Doe            |                | 
- | email       | varchar(255) | NO   |     | wat@mycorp.net      |                | 
- +-------------+--------------+------+-----+---------------------+----------------+
+    mysql> desc md_phones;
+    +-------------+--------------+------+-----+---------------------+----------------+
+    | Field       | Type         | Null | Key | Default             | Extra          |
+    +-------------+--------------+------+-----+---------------------+----------------+
+    | id          | int(11)      | NO   | PRI | NULL                | auto_increment | 
+    | mac         | varchar(20)  | NO   |     | NULL                |                | 
+    | sipnumber   | int(11)      | NO   |     | NULL                |                | 
+    | sippassword | varchar(20)  | YES  |     | 1234                |                | 
+    | identnumber | int(11)      | YES  |     | 1                   |                | 
+    | nom         | varchar(255) | YES  |     | John Doe            |                | 
+    | email       | varchar(255) | NO   |     | wat@mycorp.net      |                | 
+    +-------------+--------------+------+-----+---------------------+----------------+
 
 Yes, it's shitty but I don't care :D
 
-Easy to run :
 
- $ ruby phones.rb
+The config.yaml is easy to understand, no need to say more
+
+
+Running it
+----------
+
+    $ ruby phones.rb
  
 And then point to http://127.0.0.1:4567/
 
-TODO :
- - document DHCP to autoconfigure phones
- - add /config/MAC action to display config
- - manage phone keys
+DHCP configuration :
+
+If you want the automagical thing you need the ISC DHCP server (note that openbsd's server does not have the substring feature) and the following things in your dhcpd.conf :
+
+    if substring(binary-to-ascii(16,8,":",hardware),0,9)="1:0:4:13:"
+    {
+        option tftp-server-name "http://provisioning.mycorp.net";
+        option bootfile-name "config/{mac}";
+    }
+
+Of course it means your app is located at http://provisioning.mycorp.net
+
+
+TODO
+----
+ * manage phone keys
  
 This project was a introduction to sinatra/sequel/haml for me.

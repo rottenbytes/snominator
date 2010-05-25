@@ -3,3 +3,6 @@ host: mysql.mycorp.net
 database: phones
 user: nico
 password: secret
+sipserver: w.x.y.z
+ntpserver: a.b.c.d
+
