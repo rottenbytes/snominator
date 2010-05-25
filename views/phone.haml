@@ -1,0 +1,10 @@
+%h2 Phone 
+%form{:method => "POST"}
+    - [:sipnumber, :nom, :email, :sippassword, :mac].each do |entry|
+        #{entry} : 
+        %input{:value => @phone[entry], :name => entry }
+        %br
+    %br
+    %input{:type => "hidden", :name => "id", :value => @phone[:id] }
+    %input{:value => "Enregistrer", :type=>"submit"}
+

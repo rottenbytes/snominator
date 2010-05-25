@@ -1,0 +1,17 @@
+%h2 Phones list
+%table{:border => 0}
+    %tr
+    %td{:align => "center"} Numero
+    %td{:align => "center"} Nom
+    %td{:align => "center"} E-mail
+    %td{:align => "center"} Adresse MAC
+    %tr
+    %td
+    - @phones.each do |phone|
+        %tr
+            %td{:align => "center"} 
+                %a{:href => "/#{phone[:sipnumber]}"} #{phone[:sipnumber]}
+            %td{:align => "center"} #{phone[:nom]} 
+            %td{:align => "center"} #{phone[:email]}
+            %td{:align => "center"} #{phone[:mac]}
+
