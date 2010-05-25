@@ -1,0 +1,35 @@
+=== SNOMINATOR ===
+
+A (very) simple webservice to configure your snom IP phones
+
+Relies on mysql
+
+the database schema :
+
+mysql> desc md_phones;
+ +-------------+--------------+------+-----+---------------------+----------------+
+ | Field       | Type         | Null | Key | Default             | Extra          |
+ +-------------+--------------+------+-----+---------------------+----------------+
+ | id          | int(11)      | NO   | PRI | NULL                | auto_increment | 
+ | mac         | varchar(20)  | NO   |     | NULL                |                | 
+ | sipnumber   | int(11)      | NO   |     | NULL                |                | 
+ | sippassword | varchar(20)  | YES  |     | 1234                |                | 
+ | identnumber | int(11)      | YES  |     | 1                   |                | 
+ | nom         | varchar(255) | YES  |     | John Doe            |                | 
+ | email       | varchar(255) | NO   |     | wat@mycorp.net      |                | 
+ +-------------+--------------+------+-----+---------------------+----------------+
+
+Yes, it's shitty but I don't care :D
+
+Easy to run :
+
+ $ ruby phones.rb
+ 
+And then point to http://127.0.0.1:4567/
+
+TODO :
+ - document DHCP to autoconfigure phones
+ - add /config/MAC action to display config
+ - manage phone keys
+ 
+This project was a introduction to sinatra/sequel/haml for me.
