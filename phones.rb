@@ -12,7 +12,9 @@ DB = Sequel.connect(:adapter => "mysql",
                     :password => c["password"] )
 
 l=DB[:md_phones]
-#k=DB[:md_phones_keys]
+k=DB[:md_phones_keys]
+
+set :public, '/home/nico/phones/public'
 
 get '/' do
     @phones = l.order(:sipnumber)
@@ -23,9 +25,34 @@ end
 get '/:phonenumber' do
     phonenumber = params[:phonenumber]
     @phone = l.filter[:sipnumber => phonenumber]
-    @keys = k.filter[:sipnumber => phonenumber]
-        
+    t = k.filter(:sipnumber => phonenumber).all
+    @keys={}
+    
+    (0..11).to_a.each { |a|
+        @keys[a]='---'
+    }
+    
+    t.each { |key|
+            @keys[key[:keynumber]]=key[:sipdestination]
+    }
+    
     haml :phone
+end
+
+# easily update a function key from JS box
+get '/:phonenumber/update/:keynumber/:value?' do
+    phonenumber=params[:phonenumber]
+    keynumber=params[:keynumber]
+    value=params[:value]
+    
+    key = k.filter(:sipnumber => phonenumber, :keynumber => keynumber)
+    if !key.all.empty? then #update
+        key.update(:sipdestination => value)
+    else # add new value
+        k.insert(:id => "", :sipnumber => phonenumber, :keynumber => keynumber, :sipdestination => value)
+    end
+    
+    redirect '/'+params[:phonenumber].to_s
 end
 
 post '/:phonenumber' do
@@ -44,6 +71,7 @@ get '/config/:mac' do
 
     mac = params[:mac]
     @phone = l.filter[:mac => mac]
+    @keys = k.filter(:sipnumber => @phone[:sipnumber].to_s).all
     
     # Show config here (with haml, pure text)
     config = "language&: Francais
@@ -67,6 +95,9 @@ user_active1!: on\n"
     config += "phone_name!: "+ (@phone[:nom].to_s) +"\n"
     config += "user_realname1!: "+ (@phone[:nom].to_s) +"\n"
 
+    @keys.each { |key|
+        config += "fkey"+(key[:keynumber].to_s)+"!: dest <sip:"+(key[:sipdestination].to_s)+"@"+c["sipserver"]+";user=phone>\n"
+    }
 
     config
 

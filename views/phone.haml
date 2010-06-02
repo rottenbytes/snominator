@@ -1,10 +1,90 @@
-%h2 Phone 
-%form{:method => "POST"}
-    - [:sipnumber, :nom, :email, :sippassword, :mac].each do |entry|
-        #{entry} : 
-        %input{:value => @phone[entry], :name => entry }
+%h2 Phone
+%p
+    %form{:method => "POST"}
+        - [:sipnumber, :nom, :email, :sippassword, :mac].each do |entry|
+            #{entry} : 
+            %input{:value => @phone[entry], :name => entry }
+            %br
         %br
-    %br
-    %input{:type => "hidden", :name => "id", :value => @phone[:id] }
-    %input{:value => "Save", :type=>"submit"}
+        %input{:type => "hidden", :name => "id", :value => @phone[:id] }
+        %input{:value => "Save", :type=>"submit"}
 
+%h2 Keys
+%table{:border => 0}
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"}
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 6)"} #{@keys[6]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td 
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"}
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 0)"} #{@keys[0]}
+        %td
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"}
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 7)"} #{@keys[7]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td{:align => "center"}
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 1)"} #{@keys[1]}
+        %td
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"}
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 8)"} #{@keys[8]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td 
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 2)"} #{@keys[2]}
+        %td
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 9)"} #{@keys[9]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td 
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"}
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 3)"} #{@keys[3]}
+        %td
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 10)"} #{@keys[10]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td 
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 4)"} #{@keys[4]}
+        %td
+    %tr
+        %td
+        %td{:bgcolor => "lightgrey", :align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 11)"} #{@keys[11]}
+        %td
+            %img{:src => "/images/telsnomdroite.gif"}
+    %tr
+        %td
+            %img{:src => "/images/telsnomgauche.gif"}
+        %td{:align => "center"} 
+            %a{:href => "#", :onClick => "update_key(#{@phone[:sipnumber]}, 5)"} #{@keys[5]}
+        %td
+        
+%h2 Misc
+%a{:href => "config/#{@phone[:mac]}"} View config as sent to the phone
+%p
+%a{:href => "/"} Back to phones list

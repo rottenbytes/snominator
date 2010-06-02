@@ -29,6 +29,17 @@ the database schema :
     | nom         | varchar(255) | YES  |     | John Doe            |                | 
     | email       | varchar(255) | NO   |     | wat@mycorp.net      |                | 
     +-------------+--------------+------+-----+---------------------+----------------+
+    
+    mysql> desc md_phones_keys;
+    +----------------+-------------+------+-----+---------+----------------+
+    | Field          | Type        | Null | Key | Default | Extra          |
+    +----------------+-------------+------+-----+---------+----------------+
+    | id             | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | sipnumber      | varchar(20) | NO   |     | NULL    |                |
+    | sipdestination | varchar(20) | NO   |     | NULL    |                |
+    | keynumber      | int(11)     | NO   |     | NULL    |                |
+    +----------------+-------------+------+-----+---------+----------------+
+
 
 Yes, it's shitty but I don't care :D
 
@@ -58,6 +69,6 @@ Of course it means your app is located at http://provisioning.mycorp.net
 
 TODO
 ----
- * manage phone keys
+ * global config settings
  
 This project was a introduction to sinatra/sequel/haml for me.
